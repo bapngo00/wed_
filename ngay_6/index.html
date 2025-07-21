@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng nhập</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <form id="loginForm">
+      <h2>Sign in</h2>
+      <div class="inputBox">
+        <input type="text" id="account" required />
+        <span>Username</span>
+      </div>
+      <div class="inputBox">
+        <input type="password" id="login-password" required />
+        <span>Pass</span>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Đăng Nhập</button>
+      <a href="register.html" style="display: block; text-align: center; margin-top: 10px;">
+        Đăng ký nếu chưa có tài khoản!
+      </a>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function (event) {
+      event.preventDefault(); // Chặn reload mặc định
+
+      const url = "https://6876662f814c0dfa653bf2e8.mockapi.io/taikhoan";
+      const account = document.getElementById("account").value;
+      const password = document.getElementById("login-password").value;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          const user = data.find(
+            (user) => user.username === account && user.password === password
+          );
+          if (user) {
+            alert("Đăng nhập thành công!");
+            localStorage.setItem("user", JSON.stringify(user)); // Lưu thông tin vào localStorage
+            window.location.href = "index2.html";
+          } else {
+            alert("Tài khoản hoặc mật khẩu không đúng!");
+          }
+        })
+        .catch(error => console.error("Lỗi:", error));
+    });
+  </script>
+</body>
+</html>
