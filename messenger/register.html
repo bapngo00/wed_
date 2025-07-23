@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Đăng ký</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="container">
+    <form id="registerForm">
+      <h2>Đăng ký</h2>
+      <div class="inputBox">
+        <input type="text" id="username" required />
+        <span>Username</span>
+      </div>
+      <div class="inputBox">
+        <input type="password" id="password" required />
+        <span>Password</span>
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
+      <a href="index.html" style="display: block; text-align: center; margin-top: 10px;">
+        Quay lại đăng nhập
+      </a>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+
+      const newUser = {
+        username: username,
+        password: password,
+        avatar: "https://i.pravatar.cc/150?u=" + username, // Tạo avatar ngẫu nhiên
+        messages: [] // Danh sách tin nhắn trống ban đầu
+      };
+
+      fetch("https://6876662f814c0dfa653bf2e8.mockapi.io/taikhoan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newUser)
+      })
+        .then(response => response.json())
+        .then(data => {
+          alert("Đăng ký thành công!");
+          window.location.href = "index.html"; // Quay lại trang đăng nhập
+        })
+        .catch(error => {
+          console.error("Lỗi:", error);
+          alert("Đã xảy ra lỗi khi đăng ký.");
+        });
+    });
+  </script>
+</body>
+
+</html>
